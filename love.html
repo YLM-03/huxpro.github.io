@@ -5,210 +5,221 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>表白</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            font-family: "微软雅黑", sans-serif;
-            background-color: #FFF0F5;
+            box-sizing: border-box;
         }
-        .window {
-            position: absolute;
-            width: 400px;
-            background-color: #FFF0F5;
-            border: 2px solid #FFB6C1;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        .title-bar {
-            height: 35px;
-            background-color: #FFD1DC;
+        body {
+            background-color: #ffe6f2;
             display: flex;
+            justify-content: center;
             align-items: center;
-            padding: 0 15px;
-            cursor: move;
-        }
-        .title {
-            color: #E63946;
-            font-weight: bold;
-        }
-        .content {
+            min-height: 100vh;
+            font-family: "微软雅黑", sans-serif;
             padding: 20px;
+        }
+        .container {
+            background-color: #ffe6f2;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
             text-align: center;
+            max-width: 90%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .message {
-            font-size: 18px;
-            font-weight: bold;
-            color: #E63946;
+        /* 文字+图片 顶层容器：永远在按钮上方 */
+        .top-content {
+            position: relative;
+            z-index: 30; /* 最高层级，确保不被按钮覆盖 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: margin-bottom 0.5s ease; /* 与蓝底按钮避让动画一致 */
+        }
+        .emoji-container {
             margin: 30px 0;
-            line-height: 1.5;
+            min-height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s ease;
         }
-        .buttons {
-            margin: 20px 0;
+        .emoji {
+            width: 120px;
+            height: auto;
+            object-fit: contain;
+        }
+        .love-text {
+            font-size: 32px;
+            color: #ff4d94;
+            line-height: 1.8;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* 按钮组：仅“可以”放大，“不要”自动避让 */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 10; /* 按钮层级低于顶层内容 */
+            width: 100%;
         }
         .btn {
-            font-size: 24px;
-            width: 60px;
-            height: 60px;
             border: none;
-            border-radius: 50%;
-            margin: 0 20px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease;
-            background-color: transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
         }
-        .agree {
-            color: #FF69B4;
+        .agree-btn {
+            background-color: #ff4d94;
+            color: white;
+            padding: 15px 40px;
+            transform-origin: center;
+            width: fit-content;
         }
-        .refuse {
-            color: #E63946;
+        .agree-btn:hover {
+            background-color: #ff1493;
         }
-        .success-window {
-            width: 400px;
-            height: 200px;
-            background-color: #FFF0F5;
-            border: 2px solid #FFB6C1;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .refuse-btn {
+            background-color: #6495ed;
+            color: white;
+            padding: 12px 30px;
+            position: relative;
+            z-index: 11; /* 蓝底按钮在按钮组内上层 */
+            width: fit-content;
+            transition: transform 0.5s ease, margin 0.5s ease;
+        }
+        .refuse-btn:hover {
+            background-color: #4169e1;
+            transform: scale(1.05);
+        }
+        .success-modal {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+        }
+        .modal-content {
+            background-color: #ffe6f2;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 105, 180, 0.5);
+            text-align: center;
+            max-width: 90%;
+        }
+        .success-text {
+            font-size: 28px;
+            color: #ff4d94;
+            margin: 20px 0;
+            position: relative;
+            z-index: 30;
         }
         .decor {
+            font-size: 36px;
             margin-top: 20px;
-            font-size: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- 主窗口 -->
-    <div class="window" id="mainWindow">
-        <div class="title-bar" id="titleBar">
-            <div class="title">表白</div>
-        </div>
-        <div class="content">
-            <div class="message" id="message">我喜欢你，能做我女朋友吗？</div>
-            <div class="buttons">
-                <button class="btn agree" id="agreeBtn">✔️</button>
-                <button class="btn refuse" id="refuseBtn">✖️</button>
+    <div class="container" id="mainContainer">
+        <!-- 顶层容器：文字和图片永远在按钮上方 -->
+        <div class="top-content" id="topContent">
+            <div class="emoji-container" id="emojiContainer">
+                <img src="https://ylm-03.github.io/huxpro.github.io/KA.png" alt="自定义表白表情包" class="emoji">
             </div>
+            <div class="love-text" id="loveText">可以成为我的恋人吗?</div>
         </div>
-    </div>
-
-    <!-- 成功窗口 -->
-    <div class="success-window" id="successWindow">
-        <div class="title-bar">
-            <div class="title">太好了！</div>
-        </div>
-        <div class="content">
-            <div class="message">我会永远对你好的！💖</div>
-            <div class="decor">✨ 💘 ✨</div>
+        <!-- 按钮组 -->
+        <div class="btn-group">
+            <button class="btn agree-btn" id="agreeBtn">可以</button>
+            <button class="btn refuse-btn" id="refuseBtn">不要</button>
         </div>
     </div>
 
     <script>
-        // 求饶话术列表
+        const refuseTexts = [
+            "你认真的吗...",
+            "要不再想想？",
+            "不许选这个！",
+            "我会很伤心的...",
+            "不要嘛",
+            "求求你了~"
+        ];
         const begMessages = [
             "你真的忍心拒绝我吗呜呜呜~",
             "我会做你喜欢吃的饭~",
             "只对你一个人好~",
             "心里只有你一个人~",
             "把你当成我的掌中宝~",
-            "给我一次机会嘛呜呜呜~",
-            "考虑一下下！！！",
-            "求求了~",
-            "我还会帮你排队买奶茶！！",
-            "每天都给你买小蛋糕！",
-            "求求你了~ 再考虑一下好不好？"
+            "每天都给你买小蛋糕！"
         ];
         let messageIndex = 0;
-
-        // 获取元素
-        const mainWindow = document.getElementById('mainWindow');
-        const messageEl = document.getElementById('message');
-        const agreeBtn = document.getElementById('agreeBtn');
+        let agreeScale = 1;
+        const scaleStep = 0.3;
+        const emojiContainer = document.getElementById('emojiContainer');
         const refuseBtn = document.getElementById('refuseBtn');
-        const successWindow = document.getElementById('successWindow');
-        const titleBar = document.getElementById('titleBar');
-
-        // 窗口拖拽功能
-        let isDragging = false;
-        let offsetX, offsetY;
-
-        titleBar.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offsetX = e.clientX - mainWindow.offsetLeft;
-            offsetY = e.clientY - mainWindow.offsetTop;
-            titleBar.style.cursor = 'grabbing';
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                const x = e.clientX - offsetX;
-                const y = e.clientY - offsetY;
-                // 限制窗口不超出屏幕
-                const maxX = window.innerWidth - mainWindow.offsetWidth;
-                const maxY = window.innerHeight - mainWindow.offsetHeight;
-                mainWindow.style.left = `${Math.max(0, Math.min(x, maxX))}px`;
-                mainWindow.style.top = `${Math.max(0, Math.min(y, maxY))}px`;
-            }
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            titleBar.style.cursor = 'move';
-        });
-
-        // 随机初始位置
-        function setRandomPosition() {
-            const maxX = window.innerWidth - mainWindow.offsetWidth;
-            const maxY = window.innerHeight - mainWindow.offsetHeight;
-            const x = Math.floor(Math.random() * (maxX - 100)) + 50;
-            const y = Math.floor(Math.random() * (maxY - 100)) + 50;
-            mainWindow.style.left = `${x}px`;
-            mainWindow.style.top = `${y}px`;
-        }
-        setRandomPosition();
-
-        // 按钮动画效果
-        agreeBtn.addEventListener('mouseenter', () => {
-            agreeBtn.style.transform = 'scale(1.2)';
-            agreeBtn.style.color = '#FF1493';
-        });
-
-        agreeBtn.addEventListener('mouseleave', () => {
-            agreeBtn.style.transform = 'scale(1)';
-            agreeBtn.style.color = '#FF69B4';
-        });
+        const loveText = document.getElementById('loveText');
+        const agreeBtn = document.getElementById('agreeBtn');
+        const topContent = document.getElementById('topContent');
 
         agreeBtn.addEventListener('click', () => {
-            agreeBtn.style.transform = 'scale(1.3)';
-            setTimeout(() => {
-                mainWindow.style.display = 'none';
-                successWindow.style.display = 'block';
-            }, 100);
-        });
-
-        refuseBtn.addEventListener('mouseenter', () => {
-            refuseBtn.style.transform = 'scale(0.9)';
-            refuseBtn.style.color = '#B22222';
-        });
-
-        refuseBtn.addEventListener('mouseleave', () => {
-            refuseBtn.style.transform = 'scale(1)';
-            refuseBtn.style.color = '#E63946';
+            document.getElementById('mainContainer').style.display = 'none';
+            const successModal = document.createElement('div');
+            successModal.className = 'success-modal';
+            successModal.innerHTML = `
+                <div class="modal-content">
+                    <div class="top-content">
+                        <div class="success-text">太好了！我会永远对你好的！💖</div>
+                    </div>
+                    <div class="emoji-container">
+                        <img src="https://ylm-03.github.io/huxpro.github.io/KA.png" alt="表情包" class="emoji">
+                    </div>
+                    <div class="decor">✨💘✨</div>
+                </div>
+            `;
+            document.body.appendChild(successModal);
         });
 
         refuseBtn.addEventListener('click', () => {
-            refuseBtn.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                messageIndex = (messageIndex + 1) % begMessages.length;
-                messageEl.textContent = begMessages[messageIndex];
-                setRandomPosition();
-                refuseBtn.style.transform = 'scale(1)';
-            }, 100);
+            // 更新文字
+            loveText.textContent = begMessages[messageIndex];
+            refuseBtn.textContent = refuseTexts[messageIndex];
+
+            // 红底“可以”按钮仅放大
+            agreeScale += scaleStep;
+            agreeBtn.style.transform = `scale(${agreeScale})`;
+
+            // 蓝底“拒绝”按钮自动向下避让
+            const newMarginTop = 10 + (agreeScale - 1) * 25;
+            refuseBtn.style.marginTop = `${newMarginTop}px`;
+
+            // 变化文字和图片的避让逻辑、距离与蓝底按钮完全一致
+            const newMarginBottom = 10 + (agreeScale - 1) * 20;
+            topContent.style.marginBottom = `${newMarginBottom}px`;
+            const emojiTranslate = (agreeScale - 1) * 2;
+            emojiContainer.style.transform = `translateY(-${emojiTranslate}px)`;
+
+            messageIndex = (messageIndex + 1) % refuseTexts.length;
         });
     </script>
 </body>
