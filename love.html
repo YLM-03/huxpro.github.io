@@ -31,14 +31,13 @@
             flex-direction: column;
             align-items: center;
         }
-        /* 文字+图片 顶层容器：永远在按钮上方 */
         .top-content {
             position: relative;
-            z-index: 30; /* 最高层级，确保不被按钮覆盖 */
+            z-index: 30;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: margin-bottom 0.5s ease; /* 与蓝底按钮避让动画一致 */
+            transition: none !important; /* 彻底移除过渡 */
         }
         .emoji-container {
             margin: 30px 0;
@@ -46,12 +45,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.5s ease;
+            transition: none !important; /* 彻底移除过渡 */
         }
         .emoji {
             width: 120px;
             height: auto;
             object-fit: contain;
+            transition: none !important; /* 彻底移除过渡 */
         }
         .love-text {
             font-size: 32px;
@@ -62,7 +62,6 @@
             justify-content: center;
             align-items: center;
         }
-        /* 按钮组：仅“可以”放大，“不要”自动避让 */
         .btn-group {
             display: flex;
             flex-direction: column;
@@ -71,7 +70,7 @@
             align-items: center;
             padding: 20px 0;
             position: relative;
-            z-index: 10; /* 按钮层级低于顶层内容 */
+            z-index: 10;
             width: 100%;
         }
         .btn {
@@ -98,7 +97,7 @@
             color: white;
             padding: 12px 30px;
             position: relative;
-            z-index: 11; /* 蓝底按钮在按钮组内上层 */
+            z-index: 11;
             width: fit-content;
             transition: transform 0.5s ease, margin 0.5s ease;
         }
@@ -142,14 +141,13 @@
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <!-- 顶层容器：文字和图片永远在按钮上方 -->
         <div class="top-content" id="topContent">
             <div class="emoji-container" id="emojiContainer">
-                <img src="https://ylm-03.github.io/huxpro.github.io/KA.png" alt="自定义表白表情包" class="emoji">
+                <!-- 直接通过src属性硬编码图片地址，配合时间戳秒切换 -->
+                <img src="https://ylm-03.github.io/huxpro.github.io/heart.png?init=1" alt="初始表白表情包" class="emoji" id="emojiImg">
             </div>
             <div class="love-text" id="loveText">可以成为我的恋人吗?</div>
         </div>
-        <!-- 按钮组 -->
         <div class="btn-group">
             <button class="btn agree-btn" id="agreeBtn">可以</button>
             <button class="btn refuse-btn" id="refuseBtn">不要</button>
@@ -157,30 +155,45 @@
     </div>
 
     <script>
+        // 图片地址数组（直接硬编码，确保路径准确）
+        const emojiImages = [
+            "https://ylm-03.github.io/huxpro.github.io/heart.png",
+            "https://ylm-03.github.io/huxpro.github.io/shocked.png",
+            "https://ylm-03.github.io/huxpro.github.io/think.png",
+            "https://ylm-03.github.io/huxpro.github.io/crying.png"
+        ];
         const refuseTexts = [
-            "你认真的吗...",
-            "要不再想想？",
-            "不许选这个！",
-            "我会很伤心的...",
-            "不要嘛",
-            "求求你了~"
+            "你认真的吗...", "要不再想想？", "不许选这个！", "我会很伤心的...",
+            "不要嘛", "要不再考虑考虑？", "求求你了~", "看在我这么可爱的份上~",
+            "不要！ヽ（≧□≦）ノ", "不要~💔", "不要~💔💔", "不要~💔💔", "不要~💔💔💔",
+            "不要~💔💔💔💔", "不要~💔💔💔💔💔", "不要~💔X6", "不要~💔X7", "不要~💔X8",
+            "不要~💔X9", "不要~💔X10", "不要~💔X11", "不要~💔X12", "不要~💔X13",
+            "不要~💔X14", "不要~💔X15"
         ];
         const begMessages = [
-            "你真的忍心拒绝我吗呜呜呜~",
-            "我会做你喜欢吃的饭~",
-            "只对你一个人好~",
-            "心里只有你一个人~",
-            "把你当成我的掌中宝~",
-            "每天都给你买小蛋糕！"
+            "你真的忍心拒绝我吗呜呜呜~", "只对你一个人好~", "心里只有你一个人~",
+            "还会排队给你买小蛋糕！", "零食柜给你留最大的位置！", "我的备忘录全是你的喜欢啦~",
+            "走路我会自动变成你的小尾巴~", "我会把所有甜甜的事情分享给你~",
+            "以后的快递我帮你拆，拆出惊喜的那种~", "我的耳朵随时待命听你讲废话哦~",
+            "下雨我还会帮你撑伞，绝对淋不到你哒~", "口袋永远有给你准备的小唐豆~",
+            "我喜欢和你在一起的感觉，想一直这样！", "我是你永远的专属甜度供应商~",
+            "我攒了好多想和你说的话，看到你只剩‘你好可爱’啦~", "你是我生活里藏不住的甜",
+            "和你待在一起，空气都是甜甜的味道", "你只要做我的‘专属小朋友’就好啦~",
+            "你不用完美，你本身的样子够我喜欢好久啦~", "我好像习惯了想你，连发呆的时候都是你的样子",
+            "你是我藏在‘刚好’里的偏爱", "我喜欢你的样子比所有星星加起来都亮！",
+            "和你待在一起，普通日常都变得特别啦~", "每次看到你的消息，手机跟沾了糖似的",
+            "我总盼望着见到你，哪怕一小会儿"
         ];
         let messageIndex = 0;
+        let refuseCount = 0;
         let agreeScale = 1;
         const scaleStep = 0.3;
-        const emojiContainer = document.getElementById('emojiContainer');
+        const emojiImg = document.getElementById('emojiImg');
         const refuseBtn = document.getElementById('refuseBtn');
         const loveText = document.getElementById('loveText');
         const agreeBtn = document.getElementById('agreeBtn');
         const topContent = document.getElementById('topContent');
+        const emojiContainer = document.getElementById('emojiContainer');
 
         agreeBtn.addEventListener('click', () => {
             document.getElementById('mainContainer').style.display = 'none';
@@ -192,7 +205,7 @@
                         <div class="success-text">太好了！我会永远对你好的！💖</div>
                     </div>
                     <div class="emoji-container">
-                        <img src="https://ylm-03.github.io/huxpro.github.io/KA.png" alt="表情包" class="emoji">
+                        <img src="${emojiImages[0]}" alt="表情包" class="emoji">
                     </div>
                     <div class="decor">✨💘✨</div>
                 </div>
@@ -201,24 +214,26 @@
         });
 
         refuseBtn.addEventListener('click', () => {
-            // 更新文字
+            refuseCount++;
+            // 直接替换src属性，通过时间戳强制清除缓存，实现秒切换
+            if (refuseCount === 1) {
+                emojiImg.src = `${emojiImages[1]}?t=${Date.now()}`;
+            } else if (refuseCount === 2) {
+                emojiImg.src = `${emojiImages[2]}?t=${Date.now()}`;
+            } else if (refuseCount >= 3) {
+                emojiImg.src = `${emojiImages[3]}?t=${Date.now()}`;
+            }
+
             loveText.textContent = begMessages[messageIndex];
             refuseBtn.textContent = refuseTexts[messageIndex];
-
-            // 红底“可以”按钮仅放大
             agreeScale += scaleStep;
             agreeBtn.style.transform = `scale(${agreeScale})`;
-
-            // 蓝底“拒绝”按钮自动向下避让
             const newMarginTop = 10 + (agreeScale - 1) * 25;
             refuseBtn.style.marginTop = `${newMarginTop}px`;
-
-            // 变化文字和图片的避让逻辑、距离与蓝底按钮完全一致
             const newMarginBottom = 10 + (agreeScale - 1) * 20;
             topContent.style.marginBottom = `${newMarginBottom}px`;
             const emojiTranslate = (agreeScale - 1) * 2;
             emojiContainer.style.transform = `translateY(-${emojiTranslate}px)`;
-
             messageIndex = (messageIndex + 1) % refuseTexts.length;
         });
     </script>
