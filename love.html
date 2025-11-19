@@ -5,30 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>愿有情人终成眷属</title>
     <style>
-        body{margin:0;padding:0;font-family:"微软雅黑",sans-serif;overflow:hidden}.star-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom,#0a0f2c,#1a2a57);z-index:0}.star{position:absolute;background:white;border-radius:50%;animation:twinkle linear infinite}@keyframes twinkle{0%,100%{opacity:.8}50%{opacity:.3}}.planet{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(100,149,237,.8),rgba(0,0,0,0));box-shadow:0 0 30px rgba(100,149,237,.6);animation:float linear infinite}@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(15px)}100%{transform:translateY(0)}}.grid{position:absolute;bottom:0;left:0;width:100%;height:40%;background:linear-gradient(to top,rgba(173,216,230,.3),rgba(0,0,0,0));z-index:1}.grid::before{content:"";position:absolute;width:100%;height:100%;background-image:linear-gradient(rgba(173,216,230,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(173,216,230,.2) 1px,transparent 1px);background-size:30px 30px}.light-track{position:absolute;border:2px solid rgba(255,192,203,.6);border-radius:50%;animation:scale linear infinite}@keyframes scale{0%{transform:scale(.7);opacity:.8}100%{transform:scale(1.3);opacity:0}}.comet{position:absolute;width:3px;height:15px;background:linear-gradient(to right,rgba(173,216,230,0),rgba(173,216,230,1),rgba(173,216,230,0));transform-origin:left center;animation:cometFly linear infinite}@keyframes cometFly{0%{left:-30px;opacity:0}50%{opacity:1}100%{left:100%;opacity:0}}.constellation{position:absolute;border:1px solid rgba(255,255,255,.3);z-index:1}
+        body{margin:0;padding:0;font-family:"微软雅黑",sans-serif;overflow:hidden}
+        /* 微信居中核心：body使用flex强制居中 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .star-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom,#0a0f2c,#1a2a57);z-index:0}.star{position:absolute;background:white;border-radius:50%;animation:twinkle linear infinite}@keyframes twinkle{0%,100%{opacity:.8}50%{opacity:.3}}.planet{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(100,149,237,.8),rgba(0,0,0,0));box-shadow:0 0 30px rgba(100,149,237,.6);animation:float linear infinite}@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(15px)}100%{transform:translateY(0)}}.grid{position:absolute;bottom:0;left:0;width:100%;height:40%;background:linear-gradient(to top,rgba(173,216,230,.3),rgba(0,0,0,0));z-index:1}.grid::before{content:"";position:absolute;width:100%;height:100%;background-image:linear-gradient(rgba(173,216,230,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(173,216,230,.2) 1px,transparent 1px);background-size:30px 30px}.light-track{position:absolute;border:2px solid rgba(255,192,203,.6);border-radius:50%;animation:scale linear infinite}@keyframes scale{0%{transform:scale(.7);opacity:.8}100%{transform:scale(1.3);opacity:0}}.comet{position:absolute;width:3px;height:15px;background:linear-gradient(to right,rgba(173,216,230,0),rgba(173,216,230,1),rgba(173,216,230,0));transform-origin:left center;animation:cometFly linear infinite}@keyframes cometFly{0%{left:-30px;opacity:0}50%{opacity:1}100%{left:100%;opacity:0}}.constellation{position:absolute;border:1px solid rgba(255,255,255,.3);z-index:1}
 
-        /* 仅修改登录容器宽度，适配微信居中 */
+        /* 登录容器居中调整：移除absolute，改用flex子元素自然居中 */
         .login-container{position:relative;z-index:2;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border:1px solid rgba(0,255,255,.2);border-radius:15px;padding:40px;
-            width: 85%;  /* 改为百分比宽度，适配手机 */
-            max-width: 350px;  /* 保留最大宽度限制 */
-            text-align:center;box-shadow:0 0 20px rgba(0,255,255,.1);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:block}
+            width: 85%;
+            max-width: 350px;
+            text-align:center;box-shadow:0 0 20px rgba(0,255,255,.1);
+            /* 关键：删除absolute定位，依赖body的flex布局居中 */
+        }
 
         h2{color:#00ffff;margin-bottom:30px;font-size:24px}.input-group{margin-bottom:20px;text-align:left}label{display:block;color:#b0f0f0;margin-bottom:8px;font-size:14px}input{width:100%;padding:12px 10px;background:rgba(0,255,255,.1);border:1px solid rgba(0,255,255,.3);border-radius:5px;color:#00ffff;font-size:16px;outline:none;box-sizing:border-box}button{width:100%;padding:12px;background:#00ffff;border:none;border-radius:5px;color:#0a2c4d;font-size:16px;font-weight:bold;cursor:pointer;transition:all .3s ease;box-sizing:border-box}button:hover{background:#00d0d0;transform:translateY(-2px);box-shadow:0 0 10px rgba(0,255,255,.5)}.error{color:#ff6b6b;font-size:14px;margin-top:10px;display:none}
 
-        /* 仅修改表白页面容器宽度，适配微信居中 */
-        .love-page{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:#ffe6f2;display:flex;justify-content:center;align-items:center;font-family:"微软雅黑",sans-serif;padding:20px;display:none;z-index:99;overflow:auto}.container{background-color:#ffe6f2;padding:40px;border-radius:20px;box-shadow:0 0 30px rgba(255,105,180,.3);text-align:center;
-            max-width: 85%;  /* 改为百分比宽度 */
-            position:relative;display:flex;flex-direction:column;align-items:center}.top-content{position:relative;z-index:30;display:flex;flex-direction:column;align-items:center;transition:none!important}.emoji-container{margin:30px 0;min-height:150px;display:flex;justify-content:center;align-items:center;transition:none!important}.emoji{width:120px;height:auto;object-fit:contain;transition:none!important}.love-text{font-size:32px;color:#ff4d94;line-height:1.8;min-height:100px;display:flex;justify-content:center;align-items:center}.btn-group{display:flex;flex-direction:column;gap:30px;justify-content:center;align-items:center;padding:20px 0;position:relative;z-index:10;width:100%}.btn{border:none;border-radius:50px;font-size:20px;font-weight:bold;cursor:pointer;transition:all .3s ease;white-space:nowrap}.agree-btn{background-color:#ff4d94;color:white;padding:15px 40px;transform-origin:center;width:fit-content}.agree-btn:hover{background-color:#ff1493}.refuse-btn{background-color:#6495ed;color:white;padding:12px 30px;position:relative;z-index:11;width:fit-content;transition:transform .5s ease,margin .5s ease}.refuse-btn:hover{background-color:#4169e1;transform:scale(1.05)}.success-modal{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;z-index:999;padding:20px;display:none}.modal-content{background-color:#ffe6f2;padding:40px;border-radius:20px;box-shadow:0 0 40px rgba(255,105,180,.5);text-align:center;
-            max-width: 85%;  /* 改为百分比宽度 */
+        /* 表白页面居中调整：确保flex居中 */
+        .love-page{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:#ffe6f2;display:flex;justify-content:center;align-items:center;font-family:"微软雅黑",sans-serif;padding:20px;display:none;z-index:99;overflow:auto}
+        .container{background-color:#ffe6f2;padding:40px;border-radius:20px;box-shadow:0 0 30px rgba(255,105,180,.3);text-align:center;
+            max-width: 85%;
+            position:relative;display:flex;flex-direction:column;align-items:center}
+        .top-content{position:relative;z-index:30;display:flex;flex-direction:column;align-items:center;transition:none!important}.emoji-container{margin:30px 0;min-height:150px;display:flex;justify-content:center;align-items:center;transition:none!important}.emoji{width:120px;height:auto;object-fit:contain;transition:none!important}.love-text{font-size:32px;color:#ff4d94;line-height:1.8;min-height:100px;display:flex;justify-content:center;align-items:center}.btn-group{display:flex;flex-direction:column;gap:30px;justify-content:center;align-items:center;padding:20px 0;position:relative;z-index:10;width:100%}.btn{border:none;border-radius:50px;font-size:20px;font-weight:bold;cursor:pointer;transition:all .3s ease;white-space:nowrap}.agree-btn{background-color:#ff4d94;color:white;padding:15px 40px;transform-origin:center;width:fit-content}.agree-btn:hover{background-color:#ff1493}.refuse-btn{background-color:#6495ed;color:white;padding:12px 30px;position:relative;z-index:11;width:fit-content;transition:transform .5s ease,margin .5s ease}.refuse-btn:hover{background-color:#4169e1;transform:scale(1.05)}.success-modal{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;z-index:999;padding:20px;display:none}.modal-content{background-color:#ffe6f2;padding:40px;border-radius:20px;box-shadow:0 0 40px rgba(255,105,180,.5);text-align:center;
+            max-width: 85%;
         }.success-text{font-size:28px;color:#ff4d94;margin:20px 0;position:relative;z-index:30}.decor{font-size:36px;margin-top:20px}
 
         /* 微信浏览器适配补充 */
         @supports (-webkit-overflow-scrolling: touch) {
             .login-container, .container, .modal-content {
-                -webkit-backdrop-filter: blur(10px); /* 微信支持毛玻璃 */
+                -webkit-backdrop-filter: blur(10px);
             }
             button {
-                -webkit-tap-highlight-color: transparent; /* 去除微信点击高亮 */
+                -webkit-tap-highlight-color: transparent;
             }
         }
     </style>
@@ -36,6 +48,7 @@
 <body>
     <div class="star-bg" id="starBg"></div>
     <div class="grid"></div>
+    <!-- 登录容器作为body的直接子元素，依赖flex居中 -->
     <div class="login-container" id="loginContainer">
         <h2>公主殿下👑</h2>
         <div class="input-group">
@@ -71,6 +84,7 @@
         </div>
     </div>
     <script>(function() {
+        // 所有原逻辑代码完全保留，未做任何修改
         function createStars(count) {
             const starBg = document.getElementById('starBg');
             for (let i = 0; i < count; i++) {
@@ -206,7 +220,6 @@
             }
         });
 
-        // 新增：微信支持回车登录
         passwordInput.addEventListener('keyup', function(e) {
             if (e.key === 'Enter') {
                 submitBtn.click();
