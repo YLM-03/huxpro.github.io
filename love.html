@@ -158,35 +158,34 @@
             display: none;
         }
 
-        /* 表白页面：确保flex居中 */
-        .love-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #ffe6f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "微软雅黑", sans-serif;
-            padding: 20px;
-            display: none;
-            z-index: 99;
-            overflow: auto;
-        }
-        .container {
-            background-color: #ffe6f2;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
-            text-align: center;
-            max-width: 85%;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        /* 表白页面：确保和登录框一样居中 */
+        .love-page {position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #ffe6f2;
+        display: flex; /* 和body一样用flex布局 */
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+        font-family: "微软雅黑", sans-serif;
+        padding: 20px;
+        display: none;
+        z-index: 99;
+        overflow: auto;
+    }
+        .container {background-color: #ffe6f2;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+        text-align: center;
+        width: 90%; /* 和登录框一致的宽度 */
+        max-width: 350px; /* 和登录框一致的最大宽度 */
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
         .top-content {
             position: relative;
             z-index: 30;
