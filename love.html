@@ -92,7 +92,6 @@
             z-index: 1;
         }
 
-        /* 登录容器：删除absolute定位，依赖body的flex居中 */
         .login-container {
             position: relative;
             z-index: 2;
@@ -158,38 +157,36 @@
             display: none;
         }
 
-        /* 表白页面：确保和登录框一样居中 */
-        /* 表白页面：纯flex居中，删除多余padding避免偏移 */
         .love-page {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: linear-gradient(to bottom, #ffe6f2, #ffeff5); /* 渐变背景更清晰 */
+        background: linear-gradient(to bottom, #ffe6f2, #ffeff5);
         display: flex;
-        justify-content: center; /* 水平绝对居中 */
-        align-items: center; /* 垂直绝对居中 */
+        justify-content: center;
+        align-items: center;
         font-family: "微软雅黑", sans-serif;
-        padding: 0; /* 关键：删除20px padding，避免居中偏移 */
+        padding: 0;
         display: none;
         z-index: 99;
         overflow: auto;
     }
         .container {
         background-color: #ffe6f2;
-        padding: 30px 20px; /* 内部padding，不影响整体居中 */
+        padding: 30px 20px;
         border-radius: 20px;
         box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
         text-align: center;
-        width: 90%; /* 和登录框一致 */
-        max-width: 350px; /* 和登录框一致 */
+        width: 90%;
+        max-width: 350px;
         position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 0; /* 清空margin，依赖父级flex居中 */
-        gap: 15px; /* 内部元素间距，视觉更舒服 */
+        margin: 0;
+        gap: 15px;
     }
         .top-content {
             position: relative;
@@ -272,26 +269,26 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        display: flex; /* 用flex实现居中 */
-        justify-content: center; /* 水平居中 */
-        align-items: center; /* 垂直居中 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
         z-index: 999;
-        padding: 0; /* 删除多余padding，避免偏移 */
+        padding: 0;
         display: none;
         }
         .modal-content {
         background-color: #ffe6f2;
-        padding: 30px 20px; /* 和container一致的内部padding */
+        padding: 30px 20px;
         border-radius: 20px;
         box-shadow: 0 0 40px rgba(255, 105, 180, 0.5);
         text-align: center;
-        width: 90%; /* 和登录框、表白框一致的宽度 */
-        max-width: 350px; /* 和其他框一致的最大宽度 */
+        width: 90%;
+        max-width: 350px;
         position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 15px; /* 内部元素间距，视觉统一 */
+        gap: 15px;
         }
         .success-text {
             font-size: 28px;
@@ -305,7 +302,49 @@
             margin-top: 20px;
         }
 
-        /* 微信浏览器适配补充 */
+        /* 信封页面样式 */
+        .letter-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #fff5f8;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .letter-container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+            max-width: 600px;
+            width: 100%;
+            line-height: 1.8;
+            color: #333;
+            font-size: 16px;
+        }
+        .letter-title {
+            text-align: center;
+            color: #ff4d94;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        .letter-text {
+            white-space: pre-line;
+        }
+        .letter-signature {
+            text-align: right;
+            margin-top: 30px;
+            color: #ff4d94;
+            font-style: italic;
+        }
+
         @supports (-webkit-overflow-scrolling: touch) {
             .login-container, .container, .modal-content {
                 -webkit-backdrop-filter: blur(10px);
@@ -315,7 +354,6 @@
             }
         }
 
-        /* 媒体查询：针对小屏幕设备 */
         @media (max-width: 600px) {
             .login-container {
                 padding: 20px;
@@ -340,12 +378,13 @@
     <div class="login-container" id="loginContainer">
         <h2>公主殿下👑</h2>
         <div class="input-group">
-            <label for="password">请输入密语</label>
+            <label for="password">请输入密码</label>
             <input type="password" id="password" placeholder="身份待确认中...">
         </div>
         <button id="submitBtn">确认身份</button>
         <div class="error" id="errorMsg">身份确认失败</div>
     </div>
+
     <div class="love-page" id="lovePage">
         <div class="container" id="mainContainer">
             <div class="top-content" id="topContent">
@@ -371,6 +410,31 @@
             </div>
         </div>
     </div>
+
+    <!-- 信封页面 -->
+    <div class="letter-page" id="letterPage">
+        <div class="letter-container">
+            <div class="letter-title">我喜欢你</div>
+            <div class="letter-text" id="letterText">
+        见字如见面呀，叶燕廷小醋包~
+        这是我们相识的第 143 天
+        💖 I love you 💖
+        在这个软软又温柔的日子里，想认认真真，再和你说一次心里话。
+        我对你的心意，从来都不是一时冲动。
+        之前和你表露过心意，但我一直在慢慢审视、反复确认，这份喜欢有多坚定。
+        所以我一直在等一个合适的时机，正式、郑重地告诉你。
+        我没有一时上头的新鲜感，更不是转瞬即逝的好感。
+        是在慢慢相处的日子里，一点点确定，我真的很喜欢你。
+        喜欢你的日常，喜欢你的性格，只要和你相处，所有情绪都会变得安稳又开心。
+        我想给你明目张胆的偏爱，踏踏实实的陪伴，
+        把我所有的温柔和耐心，全都只给你一个人。
+        我想光明正大地站在你身边，
+        以喜欢的名义，长久奔赴，岁岁相伴。
+            </div>
+            <div class="letter-signature">——李显涛</div>
+        </div>
+    </div>
+
     <script>
         (function() {
             function createStars(count) {
@@ -491,12 +555,13 @@
             createComets(10);
             createConstellations();
 
-            const correctPassword = "5201314";
+            const correctPassword = "001109";
             const submitBtn = document.getElementById("submitBtn");
             const passwordInput = document.getElementById("password");
             const errorMsg = document.getElementById("errorMsg");
             const loginContainer = document.getElementById("loginContainer");
             const lovePage = document.getElementById("lovePage");
+            const letterPage = document.getElementById("letterPage");
 
             submitBtn.addEventListener("click", function() {
                 if (passwordInput.value === correctPassword) {
@@ -548,9 +613,16 @@
             const emojiContainer = document.getElementById('emojiContainer');
             const successModal = document.getElementById('successModal');
 
+            // 同意按钮 + 5秒跳转到信封
             agreeBtn.addEventListener('click', () => {
                 document.getElementById('mainContainer').style.display = 'none';
                 successModal.style.display = 'flex';
+
+                // 核心：5秒后自动跳转到信封页面
+                setTimeout(() => {
+                    lovePage.style.display = 'none';
+                    letterPage.style.display = 'flex';
+                }, 5000);
             });
 
             refuseBtn.addEventListener('click', () => {
@@ -581,9 +653,6 @@
             document.addEventListener('cut', e => e.preventDefault());
             document.addEventListener('paste', e => e.preventDefault());
             document.onselectstart = () => false;
-            document.addEventListener('mousedown', e => {
-                if (e.button === 2) return false;
-            });
         })();
     </script>
 </body>
