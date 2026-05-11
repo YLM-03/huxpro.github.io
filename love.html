@@ -378,7 +378,7 @@
     <div class="login-container" id="loginContainer">
         <h2>公主殿下👑</h2>
         <div class="input-group">
-            <label for="password">请输入密码</label>
+            <label for="password">请输入密语</label>
             <input type="password" id="password" placeholder="身份待确认中...">
         </div>
         <button id="submitBtn">确认身份</button>
@@ -411,27 +411,29 @@
         </div>
     </div>
 
-    <!-- 信封页面 -->
+    <!-- 信封页面 + 音乐 -->
     <div class="letter-page" id="letterPage">
+        <audio id="loveMusic" loop>
+            <source src="https://api.dae.vip/api/lovemusic" type="audio/mp3">
+        </audio>
         <div class="letter-container">
-            <div class="letter-title">我喜欢你</div>
+            <div class="letter-title">见字如面</div>
             <div class="letter-text" id="letterText">
-        见字如见面呀，叶燕廷小醋包~
-        这是我们相识的第 143 天
-        💖 I love you 💖
-        在这个软软又温柔的日子里，想认认真真，再和你说一次心里话。
-        我对你的心意，从来都不是一时冲动。
-        之前和你表露过心意，但我一直在慢慢审视、反复确认，这份喜欢有多坚定。
-        所以我一直在等一个合适的时机，正式、郑重地告诉你。
-        我没有一时上头的新鲜感，更不是转瞬即逝的好感。
-        是在慢慢相处的日子里，一点点确定，我真的很喜欢你。
-        喜欢你的日常，喜欢你的性格，只要和你相处，所有情绪都会变得安稳又开心。
-        我想给你明目张胆的偏爱，踏踏实实的陪伴，
-        把我所有的温柔和耐心，全都只给你一个人。
-        我想光明正大地站在你身边，
-        以喜欢的名义，长久奔赴，岁岁相伴。
+这是我们相识的第 143 天
+❤ I love you ❤
+在这个软软又温柔的日子里，想认认真真，再和你说一次心里话。
+我对你的心意，从来都不是一时冲动。
+之前和你表露过心意，但我一直在慢慢审视、反复确认，这份喜欢有多坚定。
+所以我一直在等一个合适的时机，正式、郑重地告诉你。
+我没有一时上头的新鲜感，更不是转瞬即逝的好感。
+是在慢慢相处的日子里，一点点确定，我真的很喜欢你。
+喜欢你的日常，喜欢你的性格，只要和你相处，所有情绪都会变得安稳又开心。
+我想给你明目张胆的偏爱，踏踏实实的陪伴，
+把我所有的温柔和耐心，全都只给你一个人。
+我想光明正大地站在你身边，
+以喜欢的名义，长久奔赴，岁岁相伴。
             </div>
-            <div class="letter-signature">——李显涛</div>
+            <div class="letter-signature">——专属偏爱</div>
         </div>
     </div>
 
@@ -555,13 +557,14 @@
             createComets(10);
             createConstellations();
 
-            const correctPassword = "001109";
+            const correctPassword = "1";
             const submitBtn = document.getElementById("submitBtn");
             const passwordInput = document.getElementById("password");
             const errorMsg = document.getElementById("errorMsg");
             const loginContainer = document.getElementById("loginContainer");
             const lovePage = document.getElementById("lovePage");
             const letterPage = document.getElementById("letterPage");
+            const loveMusic = document.getElementById("loveMusic");
 
             submitBtn.addEventListener("click", function() {
                 if (passwordInput.value === correctPassword) {
@@ -613,15 +616,16 @@
             const emojiContainer = document.getElementById('emojiContainer');
             const successModal = document.getElementById('successModal');
 
-            // 同意按钮 + 5秒跳转到信封
+            // 同意按钮 + 5秒跳转到信封 + 自动播放音乐
             agreeBtn.addEventListener('click', () => {
                 document.getElementById('mainContainer').style.display = 'none';
                 successModal.style.display = 'flex';
 
-                // 核心：5秒后自动跳转到信封页面
                 setTimeout(() => {
                     lovePage.style.display = 'none';
                     letterPage.style.display = 'flex';
+                    // 打开信封时自动播放音乐
+                    loveMusic.play().catch(err => {});
                 }, 5000);
             });
 
