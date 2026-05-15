@@ -91,7 +91,6 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             z-index: 1;
         }
-
         .login-container {
             position: relative;
             z-index: 2;
@@ -105,7 +104,6 @@
             text-align: center;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
         }
-
         h2 {
             color: #00ffff;
             margin-bottom: 30px;
@@ -156,7 +154,6 @@
             margin-top: 10px;
             display: none;
         }
-
         .love-page {
         position: fixed;
         top: 0;
@@ -301,8 +298,6 @@
             font-size: 36px;
             margin-top: 20px;
         }
-
-        /* 信封页面样式 */
         .letter-page {
             position: fixed;
             top: 0;
@@ -347,22 +342,18 @@
     </style>
 </head>
 <body>
-
-<!-- 音乐：完全不影响你的逻辑 -->
 <audio id="bgMusic" loop></audio>
-
 <div class="star-bg" id="starBg"></div>
 <div class="grid"></div>
 <div class="login-container" id="loginContainer">
     <h2>公主殿下👑</h2>
     <div class="input-group">
         <label for="password">请输入密码</label>
-        <input type="password" id="password" placeholder="身份待确认中...">
+        <input type="password" id="password" placeholder="身份待确认中...（姐姐的生日）">
     </div>
     <button id="submitBtn">确认身份</button>
-    <div class="error" id="errorMsg">身份确认失败</div>
+    <div class="error" id="errorMsg">你还我姐姐＞﹏＜</div>
 </div>
-
 <div class="love-page" id="lovePage">
     <div class="container" id="mainContainer">
         <div class="top-content" id="topContent">
@@ -388,7 +379,6 @@
         </div>
     </div>
 </div>
-
 <div class="letter-page" id="letterPage">
     <div class="letter-container">
         <div class="letter-title">我喜欢你</div>
@@ -411,28 +401,17 @@
         <div class="letter-signature">—— 李显涛</div>
     </div>
 </div>
-
 <script>
-// 音乐配置（完全不干扰你原有代码）
 const bgMusic = document.getElementById('bgMusic');
 bgMusic.src = "https://ylm-03.github.io/huxpro.github.io/%E9%81%87%E5%88%B0.mp3";
-
-// 微信专用「点击解锁+预加载」双保险
 document.body.addEventListener('click', () => {
-    // 1. 预加载音频（绕过跨域缓存限制）
     bgMusic.load();
-    // 2. 静音播放一次（强制解锁微信的播放权限）
     bgMusic.muted = true;
     bgMusic.play().then(() => {
-        // 3. 解锁后立刻暂停，恢复音量
         bgMusic.pause();
         bgMusic.muted = false;
     }).catch(() => {});
-}, { once: true }); // 只执行一次，不影响后续播放
-
-// ==============================================
-// 👇 下面 100% 是你原来的代码！逻辑完全没动！！
-// ==============================================
+}, { once: true });
 (function() {
     function createStars(count) {
         const starBg = document.getElementById('starBg');
@@ -551,7 +530,6 @@ document.body.addEventListener('click', () => {
     createLightTracks();
     createComets(10);
     createConstellations();
-
     const correctPassword = "001109";
     const submitBtn = document.getElementById("submitBtn");
     const passwordInput = document.getElementById("password");
@@ -559,7 +537,6 @@ document.body.addEventListener('click', () => {
     const loginContainer = document.getElementById("loginContainer");
     const lovePage = document.getElementById("lovePage");
     const letterPage = document.getElementById("letterPage");
-
     submitBtn.addEventListener("click", function() {
         if (passwordInput.value === correctPassword) {
             loginContainer.style.display = "none";
@@ -569,7 +546,6 @@ document.body.addEventListener('click', () => {
             passwordInput.value = "";
         }
     });
-
     const emojiImages = [
         "https://ylm-03.github.io/huxpro.github.io/heart.png",
         "https://ylm-03.github.io/huxpro.github.io/shocked.png",
@@ -577,16 +553,18 @@ document.body.addEventListener('click', () => {
         "https://ylm-03.github.io/huxpro.github.io/crying.png"
     ];
     const refuseTexts = [
+        "姐姐...", "要掉小珍珠了...", "我不同意!!", "我不允许!!",
         "你认真的吗...", "要不再想想？", "不许选这个！", "我会很伤心的...",
-        "不要嘛", "要不再考虑考虑？", "求求你了~", "看在我这么可爱的份上~",
-        "不要！ヽ（≧□≦）ノ", "不要~💔", "不要~💔💔", "不要~💔💔", "不要~💔💔💔",
-        "不要~💔💔💔💔", "不要~💔💔💔💔💔", "不要~💔X6", "不要~💔X7", "不要~💔X8",
-        "不要~💔X9", "不要~💔X10", "不要~💔X11", "不要~💔X12", "不要~💔X13",
-        "不要~💔X14", "不要~💔X15"
+        "不要嘛姐姐", "姐姐要不再考虑考虑？","看在我这么可爱的份上~","好不好嘛", "求求你了~",
+        "行不行呀", "我不管嘛", "你最好了~",
+        "坏姐姐💔", "姐姐坏💔💔", "坏姐姐💔💔", "姐姐坏💔💔💔",
+        "坏姐姐💔💔💔💔", "姐姐坏💔💔💔💔💔", "坏姐姐💔X6", "姐姐坏💔X7", "坏姐姐💔X8",
+        "坏姐姐💔X9", "姐姐坏💔X10", "坏姐姐💔X11", "姐姐坏💔X12", "坏姐姐💔X13",
+        "姐姐坏💔X14", "坏姐姐💔X15"
     ];
     const begMessages = [
         "你真的忍心拒绝我吗呜呜呜~", "只对你一个人好~", "心里只有你一个人~",
-        "还会排队给你买小蛋糕！", "零食柜给你留最大的位置！", "我的备忘录全是你的喜欢啦~",
+        "还会排队给你买小蛋糕！", "我还会做青椒炒肉哦！", "我要做你的小跟班",
         "走路我会自动变成你的小尾巴~", "我会把所有甜甜的事情分享给你~",
         "以后的快递我帮你拆，拆出惊喜的那种~", "我的耳朵随时待命听你讲废话哦~",
         "下雨我还会帮你撑伞，绝对淋不到你哒~", "口袋永远有给你准备的小唐豆~",
@@ -609,11 +587,9 @@ document.body.addEventListener('click', () => {
     const topContent = document.getElementById('topContent');
     const emojiContainer = document.getElementById('emojiContainer');
     const successModal = document.getElementById('successModal');
-
     agreeBtn.addEventListener('click', () => {
         document.getElementById('mainContainer').style.display = 'none';
         successModal.style.display = 'flex';
-
         setTimeout(() => {
             lovePage.style.display = 'none';
             letterPage.style.display = 'flex';
@@ -621,7 +597,6 @@ document.body.addEventListener('click', () => {
             bgMusic.play();
         }, 5000);
     });
-
     refuseBtn.addEventListener('click', () => {
         refuseCount++;
         if (refuseCount === 1) {
@@ -631,7 +606,6 @@ document.body.addEventListener('click', () => {
         } else if (refuseCount >= 3) {
             emojiImg.src = `${emojiImages[3]}?t=${Date.now()}`;
         }
-
         loveText.textContent = begMessages[messageIndex];
         refuseBtn.textContent = refuseTexts[messageIndex];
         agreeScale += scaleStep;
@@ -644,7 +618,6 @@ document.body.addEventListener('click', () => {
         emojiContainer.style.transform = `translateY(-${emojiTranslate}px)`;
         messageIndex = (messageIndex + 1) % refuseTexts.length;
     });
-
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('cut', e => e.preventDefault());
